@@ -2,18 +2,19 @@
 export LC_ALL=C
 export LMOD_CACHED_LOADS=yes
 export LMOD_CMD=/usr/share/lmod/lmod/libexec/lmod
-export LMOD_DEFAULT_MODULEPATH=/sw/mf/rackham/applications:/sw/mf/rackham/build-tools/:/sw/mf/rackham/compilers/:/sw/mf/rackham/data/:/sw/mf/rackham/environment/:/sw/mf/rackham/libraries/:/sw/mf/rackham/parallel/
+export LMOD_DEFAULT_MODULEPATH=/pdc/software/uppmax_legacy/mf/rackham/applications:/pdc/software/uppmax_legacy/mf/rackham/build-tools:/pdc/software/uppmax_legacy/mf/rackham/compilers:/pdc/software/uppmax_legacy/mf/rackham/data:/pdc/software/uppmax_legacy/mf/rackham/environment:/pdc/software/uppmax_legacy/mf/rackham/libraries:/pdc/software/uppmax_legacy/mf/rackham/parallel
+
 export LMOD_DIR=/usr/share/lmod/lmod/libexec
 export LMOD_PKG=/usr/share/lmod/lmod
-export LMOD_RC=/sw/share/compstore/production/uiac/lmodrc.lua
+export LMOD_RC=/cfs/klemming/home/b/bjovik/git/uppmax_on_dardel/lmodrc.lua
 export LMOD_SETTARG_FULL_SUPPORT=no
 export LOADEDMODULES=uppmax
-export MODULEPATH=/sw/mf/rackham/applications:/sw/mf/rackham/build-tools:/sw/mf/rackham/compilers:/sw/mf/rackham/data:/sw/mf/rackham/environment:/sw/mf/rackham/libraries:/sw/mf/rackham/parallel
-export MODULEPATH_ROOT=/sw/mf/rackham
+export MODULEPATH=/pdc/software/uppmax_legacy/mf/rackham/applications:/pdc/software/uppmax_legacy/mf/rackham/build-tools:/pdc/software/uppmax_legacy/mf/rackham/compilers:/pdc/software/uppmax_legacy/mf/rackham/data:/pdc/software/uppmax_legacy/mf/rackham/environment:/pdc/software/uppmax_legacy/mf/rackham/libraries:/pdc/software/uppmax_legacy/mf/rackham/parallel
+export MODULEPATH_ROOT=/pdc/software/uppmax_legacy/mf/rackham/
 export MODULESHOME=/usr/share/lmod/lmod
 export MODULES_CLUSTER=rackham
 export MODULES_MACH=x86_64
-export MODULE_INCLUDE=/sw/mf/common/includes
+export MODULE_INCLUDE=/pdc/software/uppmax_legacy/mf/common/includes
 export MODULE_MACH=x86_64
 export MODULE_VERSION=lmod
 export TERM=xterm
@@ -21,7 +22,7 @@ export modules_shell=bash
 
 
 # custom PS1
-export PS1='\[$(tput bold)\][\t] \u@canned-uppmax \w \\$ \[$(tput sgr0)\]'
+export PS1='\[$(tput bold)\][\t] \u@uppmax_on_dardel \w \\$ \[$(tput sgr0)\]'
 
 # add the scripts to the path
 export PATH=$PATH:/uppmax_init/
@@ -39,10 +40,6 @@ then
     # module function
     module() { eval `/usr/local/Modules/$MODULE_VERSION/bin/modulecmd $modules_shell $*`; }
     export -f module
-
-    # unload any other centra modules and load the uppmax one
-    module --force purge
-    module load uppmax
 fi
 
 # Remove __LMOD__stuff. Don't look at paths that doesn't exist. Speeds up the module system from 1 minute to 1 second.
