@@ -9,7 +9,7 @@ export LMOD_PKG=/usr/share/lmod/lmod
 export LMOD_RC=/cfs/klemming/home/b/bjovik/git/uppmax_on_dardel/lmodrc.lua
 export LMOD_SETTARG_FULL_SUPPORT=no
 export LOADEDMODULES=uppmax
-export MODULEPATH=/pdc/software/uppmax_legacy/mf/rackham/applications:/pdc/software/uppmax_legacy/mf/rackham/build-tools:/pdc/software/uppmax_legacy/mf/rackham/compilers:/pdc/software/uppmax_legacy/mf/rackham/data:/pdc/software/uppmax_legacy/mf/rackham/environment:/pdc/software/uppmax_legacy/mf/rackham/libraries:/pdc/software/uppmax_legacy/mf/rackham/parallel
+export MODULEPATH=/cfs/klemming/pdc/software/dardel/uppmax_legacy/mf/rackham/applications:/cfs/klemming/pdc/software/dardel/uppmax_legacy/mf/rackham/build-tools:/cfs/klemming/pdc/software/dardel/uppmax_legacy/mf/rackham/compilers:/cfs/klemming/pdc/software/dardel/uppmax_legacy/mf/rackham/data:/cfs/klemming/pdc/software/dardel/uppmax_legacy/mf/rackham/environment:/cfs/klemming/pdc/software/dardel/uppmax_legacy/mf/rackham/libraries:/cfs/klemming/pdc/software/dardel/uppmax_legacy/mf/rackham/parallel
 export MODULEPATH_ROOT=/pdc/software/uppmax_legacy/mf/rackham/
 export MODULESHOME=/usr/share/lmod/lmod
 export MODULES_CLUSTER=rackham
@@ -35,12 +35,18 @@ export MAIL=/var/spool/mail/$USER
 export USERNAME=$USER
 
 # only load the modules if the container is being launced through the script, when the mount points are up
-if [[ -n "$UIAC_USER" ]]
-then
-    # module function
-    module() { eval `/usr/local/Modules/$MODULE_VERSION/bin/modulecmd $modules_shell $*`; }
-    export -f module
-fi
+#if [[ -n "$UIAC_USER" ]]
+#then
+#    # module function
+#    module() { eval `/usr/local/Modules/$MODULE_VERSION/bin/modulecmd $modules_shell $*`; }
+#    export -f module
+#fi
+
+module ()
+{  
+        eval "$($LMOD_CMD $LMOD_SHELL_PRGM "$@")" && eval "$(${LMOD_SETTARG_CMD:-:} -s sh)";
+}
+
 
 # Remove __LMOD__stuff. Don't look at paths that doesn't exist. Speeds up the module system from 1 minute to 1 second.
 for envvar in $(env)
@@ -54,8 +60,6 @@ done
 # The cluster variable is not set by the module load..
 export CLUSTER=$SNIC_RESOURCE
 
-# QoL
-l() { ls -lh --color --group-directories-first $* ; }
-ll() { ls -lah --color --group-directories-first $* ; }
-export -f l
-export -f ll
+
+shopt -s expand_aliases
+alias l='ls -lh --group-directories-first --color'
